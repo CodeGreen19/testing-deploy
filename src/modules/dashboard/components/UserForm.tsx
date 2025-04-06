@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createUser } from "@/server";
+import { createUser } from "@/modules/dashboard/server";
 
 export function UserForm() {
   const queryClient = useQueryClient();

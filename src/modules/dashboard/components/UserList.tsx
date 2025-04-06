@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getUsers, deleteUser } from "@/server";
+import { getUsers, deleteUser } from "@/modules/dashboard/server";
 import { Button } from "@/components/ui/button";
 
 export function UserList() {
