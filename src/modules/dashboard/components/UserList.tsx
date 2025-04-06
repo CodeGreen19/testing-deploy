@@ -33,7 +33,7 @@ export function UserList() {
 
   return (
     <div className="space-y-2 mt-6">
-      {users.map((user, i) => (
+      {users.map((user) => (
         <div
           key={user.id}
           className="flex justify-between items-center border p-2 rounded"
