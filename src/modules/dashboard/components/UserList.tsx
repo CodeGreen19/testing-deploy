@@ -1,15 +1,23 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getUsers, deleteUser } from "@/modules/dashboard/server";
 import { Button } from "@/components/ui/button";
+import { deleteUser, getUserEmail, getUsers } from "@/modules/dashboard/server";
+import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 
 export function UserList() {
   const queryClient = useQueryClient();
 
-  const { data: users = [], isLoading } = useQuery({
-    queryKey: ["users"],
-    queryFn: getUsers,
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ["users"],
+        queryFn: async () => await getUsers(),
+      },
+      {
+        queryKey: ["email"],
+        queryFn: async () => await getUserEmail(),
+      },
+    ],
   });
 
   const mutation = useMutation({
@@ -17,11 +25,15 @@ export function UserList() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (results[0].isPending || results[1].isPending) return <p>Loading...</p>;
+
+  console.log(results[1].data);
+
+  const users = results[0].data ? [...results[0].data!] : [];
 
   return (
     <div className="space-y-2 mt-6">
-      {users.map((user) => (
+      {users.map((user, i) => (
         <div
           key={user.id}
           className="flex justify-between items-center border p-2 rounded"

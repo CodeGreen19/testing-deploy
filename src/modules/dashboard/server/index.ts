@@ -18,6 +18,9 @@ export async function createUser(data: {
 export async function getUsers() {
   return db.select().from(usersTable);
 }
+export async function getUserEmail() {
+  return db.select({ email: usersTable.email }).from(usersTable);
+}
 
 export async function deleteUser(id: number) {
   await db.delete(usersTable).where(eq(usersTable.id, id));
